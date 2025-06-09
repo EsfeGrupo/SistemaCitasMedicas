@@ -11,5 +11,5 @@ public class DoctorForm {
     private JButton btnCrear;
     private JTextField txtBuscar;
     private JPanel pnlTitulo;
-    private JTable table1;
+    private JTable tabDetalles;
 }
