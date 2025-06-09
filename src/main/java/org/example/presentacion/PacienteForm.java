@@ -11,7 +11,7 @@ public class PacienteForm extends JDialog{
     private JButton btnEliminar;
     private JButton btnEditar;
     private JButton btnCrear;
-    private JTable table1;
+    private JTable tabDetalles;
     private JTextField txtBuscar;
 
 
