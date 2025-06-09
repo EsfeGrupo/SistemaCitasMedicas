@@ -2,7 +2,7 @@ package org.example.presentacion;
 
 import javax.swing.*;
 
-public class DoctorForm {
+public class Usersform {
     private JPanel mainPanel;
     private JPanel pnlTituloOperaciones;
     private JPanel pnlOperaciones;
@@ -11,5 +11,5 @@ public class DoctorForm {
     private JButton btnCrear;
     private JTextField txtBuscar;
     private JPanel pnlTitulo;
-    private JTable tabDetalles;
+    private JTable table1;
 }

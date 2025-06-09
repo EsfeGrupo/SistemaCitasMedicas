@@ -139,7 +139,7 @@
           <color color="-16743966"/>
         </border>
         <children>
-          <component id="9309f" class="javax.swing.JTable" binding="table1" default-binding="true">
+          <component id="9309f" class="javax.swing.JTable" binding="tabDetalles">
             <constraints/>
             <properties/>
           </component>
