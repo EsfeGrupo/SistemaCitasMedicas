@@ -40,6 +40,7 @@ class ConnectionManagerTest {
         // Si la conexión está cerrada, la prueba fallará con el mensaje "La conexion debe esta abierta".
         assertFalse(conn.isClosed(), "La conexion debe esta abierta");
         if (conn != null) {
+            System.out.println("Conexión exitosa a la base de datos.");
             conn.close(); // Cierra la conexión después de la prueba.
         }
     }
