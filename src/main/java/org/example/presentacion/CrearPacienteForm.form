@@ -23,7 +23,7 @@
         <properties>
           <font size="24"/>
           <foreground color="-16777216"/>
-          <text value="Crear Paciente"/>
+          <text value="Añadir Paciente"/>
         </properties>
       </component>
       <component id="abb5e" class="javax.swing.JLabel">
@@ -136,7 +136,9 @@
           </grid>
         </constraints>
         <properties>
+          <background color="-10705648"/>
           <font size="16"/>
+          <foreground color="-458755"/>
           <margin top="0" left="0" bottom="0" right="0"/>
           <text value="Crear"/>
         </properties>
@@ -150,7 +152,9 @@
         </constraints>
         <properties>
           <actionCommand value="Cancelar"/>
+          <background color="-2810880"/>
           <font size="16"/>
+          <foreground color="-458755"/>
           <text value="Cancelar"/>
         </properties>
       </component>
