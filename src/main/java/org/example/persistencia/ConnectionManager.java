@@ -22,12 +22,12 @@ public class ConnectionManager {
      * - user=dev : Nombre de usuario para la autenticación.
      * - password=dev : Contraseña para la autenticación.
      */
-    private static final String STR_CONNECTION = "jdbc:sqlserver://DiamV2\\SQLEXPRESS:1433; " +
+    private static final String STR_CONNECTION = "jdbc:sqlserver://SistemaCitasMedicas.mssql.somee.com:1433; " +
             "encrypt=true; " +
             "database=SistemaCitasMedicas;" +
             "trustServerCertificate=true;" +
-            "user=Medico;" +
-            "password=12345";
+            "user=Diam_SQLLogin_1;" +
+            "password=ad6dxcvhe1";
 
     /**
      * Representa la conexión activa a la base de datos. Inicialmente es nula.
