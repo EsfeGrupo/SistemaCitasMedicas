@@ -1,18 +1,18 @@
 package org.example.dominio;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Paciente {
     private int id;
     private String nombre;
     private String direccion;
     private String telefono;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private byte genero;
 
     public Paciente() {
     }
 
-    public Paciente(int id, String nombre, String direccion, String telefono, Date fechaNacimiento, byte genero) {
+    public Paciente(int id, String nombre, String direccion, String telefono, LocalDate fechaNacimiento, byte genero) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -53,11 +53,11 @@ public class Paciente {
         this.telefono = telefono;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
