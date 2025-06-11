@@ -138,7 +138,22 @@ class PacienteDAOTest {
         delete(testPaciente);
     }
 
-    @Test
-    void create() {
+    //@Test
+    void createPaciente() throws SQLException {
+        // Define a specific birth date for the test patient
+        LocalDate fechaNacimiento = LocalDate.of(1985, 10, 26);
+
+        // Create a new Paciente object with test data
+        Paciente paciente = new Paciente(0, "Juan Perez", "Avenida Siempre Viva 123",
+                "7890-1234", fechaNacimiento, (byte) 1);
+
+        // Call the create method on your pacienteDAO
+        Paciente res = PacienteDAO.create(paciente);
+
+        // Assert that the returned object is not null, indicating creation success
+        assertNotNull(res);
+
+        // Optional: You could add more assertions here, like checking if the ID was assigned
+        // assertNotEquals(0, res.getId());
     }
 }
