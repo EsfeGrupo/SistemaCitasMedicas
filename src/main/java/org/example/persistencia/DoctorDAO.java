@@ -11,7 +11,6 @@ public class DoctorDAO {
     private ConnectionManager conn; // Objeto para gestionar la conexión con la base de datos.
     private PreparedStatement ps;   // Objeto para ejecutar consultas SQL preparadas.
     private ResultSet rs;           // Objeto para almacenar el resultado de una consulta SQL.
-
     public DoctorDAO(){
         conn = ConnectionManager.getInstance();
     }
@@ -101,6 +100,8 @@ public class DoctorDAO {
             ps.setString(2, doctor.getEspecialidad()); // Asignar la direccion del doctor.
             ps.setFloat(3, doctor.getExperiencia()); // Asignar el nombre del usuario.
             ps.setByte(4, doctor.getDisponibilidad());   // Asignar el estado del usuario.
+            ps.setInt(5, doctor.getId());       // Establecer la condición WHERE para identificar el usuario a actualizar por su ID.
+
 
             // Ejecutar la sentencia de actualización y verificar si se afectó alguna fila.
             if(ps.executeUpdate() > 0){
