@@ -1,6 +1,6 @@
 package org.example.utils;
 
-public class CBOption {
+public class    CBOption {
     private String displayText;
     private Object value;
 

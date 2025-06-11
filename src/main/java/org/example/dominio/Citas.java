@@ -1,13 +1,14 @@
 package org.example.dominio;
+import java.time.LocalDateTime;
 
 public class Citas {
     private int id;
-    private String fechaHora;
+    private LocalDateTime fechaHora;
     private String pacienteId;
     private String doctorId;
     private String estado;
 
-    public Citas(int id, String fechaHora, String pacienteId, String doctorId, String estado) {
+    public Citas(int id, LocalDateTime fechaHora, String pacienteId, String doctorId, String estado) {
         this.id = id;
         this.fechaHora = fechaHora;
         this.pacienteId = pacienteId;
@@ -24,11 +25,11 @@ public class Citas {
         this.id = id;
     }
 
-    public String getFechaHora() {
-        return fechaHora;
+    public LocalDateTime getFechaHora() {
+        return this.fechaHora;
     }
 
-    public void setFechaHora(String fecha) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 
