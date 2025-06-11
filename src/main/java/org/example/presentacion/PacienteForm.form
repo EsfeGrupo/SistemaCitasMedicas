@@ -105,7 +105,7 @@
                 <properties>
                   <foreground color="-16777216"/>
                   <horizontalAlignment value="0"/>
-                  <icon value="imagenes/paciente.png"/>
+                  <icon value="imagenes/pacienteId.png"/>
                   <preferredSize width="250" height="250"/>
                   <text value=""/>
                 </properties>

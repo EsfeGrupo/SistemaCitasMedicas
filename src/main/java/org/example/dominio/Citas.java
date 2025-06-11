@@ -2,19 +2,17 @@ package org.example.dominio;
 
 public class Citas {
     private int id;
-    private String fecha;
-    private String hora;
-    private String paciente;
-    private String doctor;
-    private String motivo;
+    private String fechaHora;
+    private String pacienteId;
+    private String doctorId;
+    private String estado;
 
-    public Citas(int id, String fecha, String hora, String paciente, String doctor, String motivo) {
+    public Citas(int id, String fechaHora, String pacienteId, String doctorId, String estado) {
         this.id = id;
-        this.fecha = fecha;
-        this.hora = hora;
-        this.paciente = paciente;
-        this.doctor = doctor;
-        this.motivo = motivo;
+        this.fechaHora = fechaHora;
+        this.pacienteId = pacienteId;
+        this.doctorId = doctorId;
+        this.estado = estado;
     }
 
     // Getters and Setters
@@ -26,43 +24,35 @@ public class Citas {
         this.id = id;
     }
 
-    public String getFecha() {
-        return fecha;
+    public String getFechaHora() {
+        return fechaHora;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setFechaHora(String fecha) {
+        this.fechaHora = fechaHora;
     }
 
-    public String getHora() {
-        return hora;
+    public String getPacienteId() {
+        return pacienteId;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setPacienteId(String pacienteId) {
+        this.pacienteId = pacienteId;
     }
 
-    public String getPaciente() {
-        return paciente;
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public void setPaciente(String paciente) {
-        this.paciente = paciente;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public String getDoctor() {
-        return doctor;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setDoctor(String doctor) {
-        this.doctor = doctor;
-    }
-
-    public String getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

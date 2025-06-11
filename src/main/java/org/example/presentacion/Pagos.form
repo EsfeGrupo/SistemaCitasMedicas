@@ -35,7 +35,7 @@
             </constraints>
             <properties>
               <foreground color="-16316665"/>
-              <text value="Nombre de paciente "/>
+              <text value="Nombre de pacienteId "/>
             </properties>
           </component>
           <vspacer id="39c60">
