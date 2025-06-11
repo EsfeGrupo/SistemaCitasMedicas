@@ -28,8 +28,10 @@ public class PacienteForm extends JDialog{
 
         Component frame = null;
         btnCrear.addActionListener(e -> {
-            // Lógica para crear un nuevo paciente
-            JOptionPane.showMessageDialog(frame, "Crear Paciente");
+            // Lógica para abrir la vista de CrearPaciente
+            //CrearPacienteForm crearPaciente  = new CrearPacienteForm(this); // Crea una nueva instancia del formulario principal de la aplicación.
+            //crearPaciente.setVisible(true); // Hace visible el formulario de creación de paciente.
+
         });
 
         btnEditar.addActionListener(e -> {
