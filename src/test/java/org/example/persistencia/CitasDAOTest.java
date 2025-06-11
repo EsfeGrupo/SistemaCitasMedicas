@@ -78,4 +78,7 @@ class CitasDAOTest {
             fail("Excepción al eliminar cita: " + e.getMessage());
         }
     }
+    @Test
+    void Search(){
+    }
 }
