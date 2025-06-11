@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach; // Anotación para indicar que el méto
 import org.junit.jupiter.api.Test;       // Anotación para indicar que el método es un caso de prueba.
 import org.example.dominio.Doctor;               // Clase que representa la entidad de doctor utilizada en las pruebas.
 
+import java.time.LocalDate;
 import java.util.ArrayList;              // Clase para crear listas dinámicas de objetos, utilizada en algunas pruebas.
 import java.util.Random;                 // Clase para generar números aleatorios, útil para crear datos de prueba.
 import java.sql.SQLException;             // Clase para manejar excepciones relacionadas con la base de datos, aunque no se espera que las pruebas unitarias interactúen directamente con ella (idealmente se mockean las dependencias).
@@ -126,7 +127,17 @@ class DoctorDAOTest {
         // Llama al método 'delete' para eliminar el paciente de prueba de la base de datos y verifica la eliminación.
         delete(testDoctor);
     }
-    @Test
-    void create() {
+    //@Test
+    void createDoctor() throws SQLException {
+        Doctor doctor = new Doctor(0, "Doctor Prueba ", "Cardiología ", 5.0f, (byte) 2);
+
+        // Call the create method on your pacienteDAO
+        Doctor res = DoctorDAO.create(doctor);
+
+        // Assert that the returned object is not null, indicating creation success
+        assertNotNull(res);
+
+        // Optional: You could add more assertions here, like checking if the ID was assigned
+        // assertNotEquals(0, res.getId());
     }
 }
