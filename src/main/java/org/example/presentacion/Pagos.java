@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.text.SimpleDateFormat; // Para formatear la fecha
 import java.util.Date; // Para obtener la fecha actual
 
-public class Pagos {
+public class Pagos extends JFrame {
     private JLabel LPresentacion;
     private JPanel JContenido;
     private JButton pagarButton;
@@ -24,4 +24,12 @@ public class Pagos {
         }
 
     }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new Pagos().notifyAll();
+            }
+        });
+}
 }
