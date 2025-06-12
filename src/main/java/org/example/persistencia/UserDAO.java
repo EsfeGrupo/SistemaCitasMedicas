@@ -231,7 +231,7 @@ public class UserDAO {
      * @param password La contraseña sin hashear.
      * @return El hash SHA-256 en formato hexadecimal.
      */
-    private String hashPassword(String password) {
+    public String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashedBytes = md.digest(password.getBytes());
