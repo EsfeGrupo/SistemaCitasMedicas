@@ -39,7 +39,7 @@ public class PagoDAO {
                     java.sql.Statement.RETURN_GENERATED_KEYS
             );
 
-            ps.setInt(1, pago.getCitaId());
+            ps.setString(1, pago.getCitaId());
             ps.setFloat(2, pago.getMonto());
             // Convertir LocalDateTime a Timestamp para la base de datos
             ps.setTimestamp(3, Timestamp.valueOf(pago.getFechaPago()));
@@ -153,7 +153,7 @@ public class PagoDAO {
             while (rs.next()) {
                 Pago pago = new Pago();
                 pago.setId(rs.getInt("id"));
-                pago.setCitaId(rs.getInt("citaId"));
+                pago.setCitaId(rs.getString("citaId"));
                 pago.setMonto(rs.getFloat("monto"));
                 // Convertir Timestamp de la DB a LocalDateTime
                 pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
@@ -190,7 +190,7 @@ public class PagoDAO {
             if (rs.next()) {
                 pago = new Pago();
                 pago.setId(rs.getInt("id"));
-                pago.setCitaId(rs.getInt("citaId"));
+                pago.setCitaId(rs.getString("citaId"));
                 pago.setMonto(rs.getFloat("monto"));
                 // Convertir Timestamp de la DB a LocalDateTime
                 pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
@@ -222,7 +222,7 @@ public class PagoDAO {
             while (rs.next()) {
                 Pago pago = new Pago();
                 pago.setId(rs.getInt("id"));
-                pago.setCitaId(rs.getInt("citaId"));
+                pago.setCitaId(rs.getString("citaId"));
                 pago.setMonto(rs.getFloat("monto"));
                 pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
                 records.add(pago);

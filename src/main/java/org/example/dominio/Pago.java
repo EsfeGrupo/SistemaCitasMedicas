@@ -4,7 +4,7 @@ import java.time.LocalDateTime; // Usaremos LocalDateTime para fechas y horas mo
 
 public class Pago {
     private int id;
-    private int citaId;
+    private String citaId;
     private float monto;
     private LocalDateTime fechaPago; // Usaremos LocalDateTime para la fecha de pago
 
@@ -13,7 +13,7 @@ public class Pago {
     }
 
     // Constructor con todos los campos (excepto ID, que es autoincremental)
-    public Pago(int citaId, float monto, LocalDateTime fechaPago) {
+    public Pago(String citaId, float monto, LocalDateTime fechaPago) {
         this.citaId = citaId;
         this.monto = monto;
         this.fechaPago = fechaPago;
@@ -28,11 +28,11 @@ public class Pago {
         this.id = id;
     }
 
-    public int getCitaId() {
+    public String getCitaId() {
         return citaId;
     }
 
-    public void setCitaId(int citaId) {
+    public void setCitaId(String citaId) {
         this.citaId = citaId;
     }
 
@@ -52,16 +52,7 @@ public class Pago {
         this.fechaPago = fechaPago;
     }
 
-    // Opcional: Método toString para una fácil depuración
-    @Override
-    public String toString() {
-        return "Pago{" +
-                "id=" + id +
-                ", citaId=" + citaId +
-                ", monto=" + monto +
-                ", fechaPago=" + fechaPago +
-                '}';
-    }
+
 }
 
 
