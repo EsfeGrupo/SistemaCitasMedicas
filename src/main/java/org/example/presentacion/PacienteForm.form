@@ -47,7 +47,7 @@
                 </constraints>
                 <properties>
                   <background color="-2172672"/>
-                  <font size="14"/>
+                  <font size="16"/>
                   <foreground color="-458755"/>
                   <text value="Editar"/>
                 </properties>
@@ -58,7 +58,7 @@
                 </constraints>
                 <properties>
                   <background color="-2810880"/>
-                  <font size="14"/>
+                  <font size="16"/>
                   <foreground color="-458755"/>
                   <margin top="0" left="0" bottom="0" right="0"/>
                   <text value="Eliminar"/>
@@ -70,7 +70,7 @@
                 </constraints>
                 <properties>
                   <background color="-10705648"/>
-                  <font size="14"/>
+                  <font size="16"/>
                   <foreground color="-458755"/>
                   <text value="Crear"/>
                 </properties>
@@ -82,7 +82,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <font size="14"/>
+                  <font size="16"/>
                   <text value="Buscar nombre"/>
                 </properties>
               </component>
@@ -105,7 +105,7 @@
                 <properties>
                   <foreground color="-16777216"/>
                   <horizontalAlignment value="0"/>
-                  <icon value="imagenes/pacienteId.png"/>
+                  <icon value="imagenes/paciente.png"/>
                   <preferredSize width="250" height="250"/>
                   <text value=""/>
                 </properties>
