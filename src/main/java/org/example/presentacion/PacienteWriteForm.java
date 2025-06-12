@@ -2,7 +2,7 @@ package org.example.presentacion;
 
 import javax.swing.*;
 
-public class PacienteWriteForm {
+public class PacienteWriteForm extends JDialog {
     private final PacienteForm pacienteForm;
     private JPanel MainPanel;
     private JTextField txtNombre;

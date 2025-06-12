@@ -4,6 +4,8 @@ import javax.swing.*;
 
 public class MainForm extends JFrame{
 
+    private JPanel MainPanel;
+
     public MainForm(){
         setTitle("Sistema en java de Citas medicas de escritorio"); // Establece el título de la ventana principal (JFrame).
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación por defecto al cerrar la ventana para que la aplicación se termine.
