@@ -2,7 +2,7 @@ package org.example.presentacion;
 
 import javax.swing.*;
 
-public class CrearDoctorForm {
+public class DoctorWriteForm {
     private JPanel MainPanel;
     private JTextField txtEspecialidad;
     private JTextField txtNombre;
@@ -10,4 +10,5 @@ public class CrearDoctorForm {
     private JButton btnCrear;
     private JButton btnCancelar;
     private JComboBox cboDisponibilidad;
+    private JLabel lblTitulo;
 }

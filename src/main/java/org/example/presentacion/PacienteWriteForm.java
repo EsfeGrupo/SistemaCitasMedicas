@@ -2,19 +2,20 @@ package org.example.presentacion;
 
 import javax.swing.*;
 
-public class CrearPacienteForm {
+public class PacienteWriteForm {
     private final PacienteForm pacienteForm;
     private JPanel MainPanel;
     private JTextField txtNombre;
     private JTextField txtDireccion;
     private JTextField txtTelefono;
     private JTextField txtFecha;
-    private JComboBox comboBox1;
+    private JComboBox cboGenero;
+    private JLabel lblTitulo;
     private JButton btnCrear;
     private JButton btnCancelar;
 
 
-    public CrearPacienteForm(PacienteForm pacienteForm) {
+    public PacienteWriteForm(PacienteForm pacienteForm) {
         this.pacienteForm = pacienteForm; // Inicializa la referencia a la ventana principal.
         pacienteForm.setContentPane(MainPanel); // Establece el panel principal como el contenido de este diálogo.
         pacienteForm.setModal(true); // Hace que este diálogo sea modal, lo que significa que bloquea la interacción con la ventana principal hasta que se cierre.
