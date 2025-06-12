@@ -25,8 +25,8 @@ public class MainForm extends JFrame{
     JMenuItem itemCita = new JMenuItem("Citas");
     menuBar.add(itemCita);
     itemCita.addActionListener(e -> {
-        //CitaForm cita = new CitaForm(this);
-        //cita.setVisible(true);
+        CitasForm citas = new CitasForm(this);
+        citas.setVisible(true);
     });
     JMenuItem itemMedico = new JMenuItem("Médicos");
     menuBar.add(itemMedico);
