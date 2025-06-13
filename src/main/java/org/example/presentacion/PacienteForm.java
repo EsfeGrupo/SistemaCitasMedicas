@@ -1,4 +1,4 @@
-/*package org.example.presentacion;
+package org.example.presentacion;
 
 import org.example.persistencia.PacienteDAO; // Importa la interfaz o clase UserDAO, que define las operaciones de acceso a datos para la entidad User.
 
@@ -221,4 +221,3 @@ public class PacienteForm extends JDialog{
         }
     }
 }
-*/

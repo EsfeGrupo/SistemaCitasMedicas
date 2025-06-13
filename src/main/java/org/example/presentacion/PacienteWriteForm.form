@@ -100,16 +100,6 @@
           <text value="Fecha de nacimiento"/>
         </properties>
       </component>
-      <component id="74d8f" class="javax.swing.JTextField" binding="txtFecha">
-        <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="31"/>
-          </grid>
-        </constraints>
-        <properties>
-          <font size="16"/>
-        </properties>
-      </component>
       <component id="ae93d" class="javax.swing.JLabel">
         <constraints>
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
@@ -130,7 +120,7 @@
           <font size="16"/>
         </properties>
       </component>
-      <component id="d846a" class="javax.swing.JButton" binding="btnCrear">
+      <component id="d846a" class="javax.swing.JButton" binding="btnGuardar">
         <constraints>
           <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="40"/>
@@ -142,7 +132,7 @@
           <font size="20"/>
           <foreground color="-458755"/>
           <margin top="0" left="0" bottom="0" right="0"/>
-          <text value="Crear"/>
+          <text value="Guardar"/>
         </properties>
       </component>
       <component id="75a3c" class="javax.swing.JButton" binding="btnCancelar">
@@ -160,6 +150,18 @@
           <text value="Cancelar"/>
         </properties>
       </component>
+      <grid id="c3d55" binding="panelFechaNacimientoContenedor" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="32"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font size="16"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
     </children>
   </grid>
 </form>
