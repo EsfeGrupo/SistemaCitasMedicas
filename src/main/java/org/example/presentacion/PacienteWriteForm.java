@@ -64,6 +64,7 @@ public class PacienteWriteForm extends JDialog {
         switch (this.cud) {
             case CREATE:
                 setTitle("Crear Paciente");
+                lblTitulo.setText("Nuevo Paciente");
                 btnGuardar.setText("Guardar");
                 break;
             case UPDATE:

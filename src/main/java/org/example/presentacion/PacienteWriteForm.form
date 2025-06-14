@@ -74,7 +74,7 @@
         <properties>
           <font size="14"/>
           <foreground color="-16777216"/>
-          <text value="Nombre"/>
+          <text value="Nombre *"/>
           <verticalAlignment value="0"/>
           <verticalTextPosition value="0"/>
         </properties>
@@ -107,7 +107,7 @@
         <properties>
           <font size="14"/>
           <foreground color="-16777216"/>
-          <text value="Seleccionar Genero"/>
+          <text value="Seleccionar Genero *"/>
         </properties>
       </component>
       <component id="a9a32" class="javax.swing.JComboBox" binding="cboGenero">

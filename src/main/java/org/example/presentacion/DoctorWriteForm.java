@@ -50,20 +50,23 @@ public class DoctorWriteForm extends JDialog {
         switch (this.cud) {
             case CREATE:
                 // Si la operación es de creación, establece el título de la ventana como "Crear Usuario".
-                setTitle("Crear Usuario");
+                setTitle("Nuevo Doctor");
                 // Establece el texto del botón de acción principal (btnOk) como "Guardar".
+                lblTitulo.setText("Nuevo Doctor");
                 btnGuardar.setText("Guardar");
                 break;
             case UPDATE:
                 // Si la operación es de actualización, establece el título de la ventana como "Modificar Usuario".
-                setTitle("Modificar Usuario");
+                setTitle("Modificar Doctor");
                 // Establece el texto del botón de acción principal (btnOk) como "Guardar".
+                lblTitulo.setText("Modificar Doctor");
                 btnGuardar.setText("Guardar");
                 break;
             case DELETE:
                 // Si la operación es de eliminación, establece el título de la ventana como "Eliminar Usuario".
-                setTitle("Eliminar Usuario");
+                setTitle("Eliminar Doctor");
                 // Establece el texto del botón de acción principal (btnOk) como "Eliminar".
+                lblTitulo.setText("Eliminar Dctor");
                 btnGuardar.setText("Eliminar");
                 break;
         }
@@ -110,6 +113,7 @@ public class DoctorWriteForm extends JDialog {
             txtNombre.setEditable(false);
             // Deshabilita la edición del campo de texto 'txtNombre' para evitar modificaciones.
             txtNombre.setEditable(false);
+            txtEspecialidad.setEditable(false);
             txtExperiencia.setEditable(false);
             // Deshabilita el ComboBox 'cboDisponibilidad' para evitar cambios en el estatus.
             cboDisponibilidad.setEnabled(false);
