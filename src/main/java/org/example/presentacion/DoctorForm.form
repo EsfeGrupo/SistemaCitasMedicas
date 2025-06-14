@@ -4,7 +4,9 @@
     <constraints>
       <xy x="20" y="20" width="682" height="502"/>
     </constraints>
-    <properties/>
+    <properties>
+      <preferredSize width="1000" height="600"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="234ff" layout-manager="BorderLayout" hgap="0" vgap="0">
