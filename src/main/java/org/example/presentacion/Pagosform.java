@@ -33,7 +33,7 @@ public class Pagosform extends JDialog{
 
     public Pagosform(MainForm mainForm){
         this.mainForm = mainForm; // Asigna la instancia de MainForm recibida a la variable local.
-        PagoDAO PagoDAO = new PagoDAO();
+        pagoDAO = new PagoDAO();
         setContentPane(prinPanel); // Establece el panel principal como el contenido de este diálogo.
         setModal(true); // Hace que este diálogo sea modal, bloqueando la interacción con la ventana principal hasta que se cierre.
         setTitle("Buscar Pagos"); // Establece el título de la ventana del diálogo.
