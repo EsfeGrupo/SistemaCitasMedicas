@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat; // Para formatear la fecha
 import java.util.Date; // Para obtener la fecha actual
 
 
-public class Pagosform extends JFrame {
+public class    Pagosform extends JFrame {
     private JLabel LPresentacion;
     private JPanel JContenido;
     private JPanel pnlSub;
