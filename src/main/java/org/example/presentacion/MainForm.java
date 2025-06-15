@@ -33,7 +33,7 @@ public class MainForm extends JFrame{
         JMenuItem itemPagar = new JMenuItem("Pago de cita");
         menuBar.add(itemPagar);
         itemPagar.addActionListener(e -> {
-            Pagosform pago = new Pagosform((Runnable) this);
+            Pagosform pago = new Pagosform(this);
             pago.setVisible(true);
         });
     JMenuItem itemMedico = new JMenuItem("Médicos");
