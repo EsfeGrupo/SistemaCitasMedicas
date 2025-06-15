@@ -10,6 +10,7 @@ import org.example.utils.CUD; // Importa el enum  CUD (Create, Update, Delete).
 
 import java.awt.event.KeyAdapter; // Importa la clase KeyAdapter, una clase adaptadora para recibir eventos de teclado.
 import java.awt.event.KeyEvent; // Importa la clase KeyEvent, que representa un evento de teclado.
+import java.sql.SQLException;
 import java.util.ArrayList; // Importa la clase ArrayList, una implementación de la interfaz List que permite almacenar colecciones dinámicas de objetos.
 
 
@@ -39,7 +40,12 @@ public class CitasForm extends JDialog{
         // Agrega un ActionListener al botón btnCreate.
         btnCrear.addActionListener(s -> {
             // Crea una nueva instancia de UserWriteForm para la creación de un nuevo usuario, pasando la MainForm, la constante CREATE de CUD y un nuevo objeto User vacío.
-            CitasWriteForm CitasWriteForm = new CitasWriteForm(this.mainForm, CUD.CREATE, new Citas());
+            CitasWriteForm CitasWriteForm = null;
+            try {
+                CitasWriteForm = new CitasWriteForm(this.mainForm, CUD.CREATE, new Citas());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             // Hace visible el formulario de escritura de usuario.
             CitasWriteForm.setVisible(true);
             // Limpia la tabla de usuarios creando y asignando un modelo de tabla vacío  para refrescar la lista después de la creación.
@@ -54,7 +60,12 @@ public class CitasForm extends JDialog{
             // Verifica si se seleccionó un usuario en la tabla (getUserFromTableRow no devolvió null).
             if (citas != null) {
                 // Crea una nueva instancia de UserWriteForm para la actualización del usuario seleccionado, pasando la MainForm, la constante UPDATE de CUD y el objeto User obtenido.
-                CitasWriteForm CitasWriteForm = new CitasWriteForm(this.mainForm, CUD.UPDATE, citas);
+                CitasWriteForm CitasWriteForm = null;
+                try {
+                    CitasWriteForm = new CitasWriteForm(this.mainForm, CUD.UPDATE, citas);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 // Hace visible el formulario de escritura de usuario.
                 CitasWriteForm.setVisible(true);
                 // Limpia la tabla de usuarios creando y asignando un modelo de tabla vacío para refrescar la lista después de la actualización.
@@ -70,7 +81,12 @@ public class CitasForm extends JDialog{
             // Verifica si se seleccionó un usuario en la tabla (getUserFromTableRow no devolvió null).
             if (citas != null) {
                 // Crea una nueva instancia de UserWriteForm para la eliminación del usuario seleccionado, pasando la MainForm, la constante DELETE de CUD y el objeto User obtenido.
-                CitasWriteForm CitasWriteForm = new CitasWriteForm(this.mainForm, CUD.DELETE, citas);
+                CitasWriteForm CitasWriteForm = null;
+                try {
+                    CitasWriteForm = new CitasWriteForm(this.mainForm, CUD.DELETE, citas);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 // Hace visible el formulario de escritura de usuario.
                 CitasWriteForm.setVisible(true);
                 // Limpia la tabla de usuarios creando y asignando un modelo de tabla vacío  para refrescar la lista después de la eliminación.
