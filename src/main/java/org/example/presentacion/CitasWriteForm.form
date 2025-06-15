@@ -141,17 +141,18 @@
               <font size="16"/>
             </properties>
           </component>
-          <component id="a010" class="javax.swing.JTextField" binding="txtFecha">
+          <grid id="6d716" binding="panelFechaNacimientoContenedor" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="9" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="100" height="31"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="32"/>
               </grid>
             </constraints>
             <properties>
-              <columns value="0"/>
-              <font size="18"/>
+              <font size="16"/>
             </properties>
-          </component>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
     </children>

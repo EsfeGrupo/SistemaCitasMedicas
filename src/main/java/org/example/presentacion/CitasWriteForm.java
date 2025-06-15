@@ -1,5 +1,7 @@
 package org.example.presentacion;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import org.example.dominio.Citas;
 import org.example.dominio.Doctor;
 import org.example.dominio.Paciente;
@@ -10,9 +12,11 @@ import org.example.utils.CBOption;
 import org.example.utils.CUD;
 
 import javax.swing.*;
+import java.awt.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 public class CitasWriteForm extends JDialog {
     private JPanel MainPanel;
@@ -21,8 +25,11 @@ public class CitasWriteForm extends JDialog {
     private JComboBox cboEstado;
     private JComboBox cboDoctorId;
     private JComboBox cboPacienteId;
-    private JTextField txtFecha;
     private JPanel mainPanel;
+    private JPanel panelFechaNacimientoContenedor;
+
+    // 2. Esta variable es la instancia real del DatePicker que creas en el código.
+    private DatePicker dpFechaNacimiento; // <--- MANTÉN ESTA VARIABLE ASÍ
 
     private MainForm mainForm;
     private CUD cud;
@@ -39,8 +46,10 @@ public class CitasWriteForm extends JDialog {
         setModal(true);
         setTitle("Formulario de Citas");
         setLocationRelativeTo(mainForm);
+        initDatePicker(); // <-- AGREGA ESTA LÍNEA
         init();
         pack();
+
 
         btnCancelar.addActionListener(e -> dispose());
         btnCrear.addActionListener(e -> guardarCita());
@@ -94,16 +103,34 @@ public class CitasWriteForm extends JDialog {
         }
         cboPacienteId.setModel(model);
     }
+    private void initDatePicker() {
+        DatePickerSettings dateSettings = new DatePickerSettings();
+        dateSettings.setLocale(new Locale("es", "ES"));
+        dateSettings.setAllowKeyboardEditing(false);
 
+        dpFechaNacimiento = new DatePicker(dateSettings); // ¡Aquí creamos la instancia del DatePicker!
+
+        // ESTA ES LA PARTE CLAVE:
+        // Añadimos el DatePicker (dpFechaNacimiento) al JPanel contenedor (panelFechaNacimientoContenedor)
+        // que ha sido enlazado automáticamente por el diseñador de UI.
+        if (panelFechaNacimientoContenedor != null) {
+            panelFechaNacimientoContenedor.setLayout(new BorderLayout()); // Asegura que el panel contenedor tenga un layout
+            panelFechaNacimientoContenedor.add(dpFechaNacimiento, BorderLayout.CENTER); // Añade el DatePicker al panel
+        } else {
+            System.err.println("Error: panelFechaNacimientoContenedor no fue inicializado correctamente por el diseñador.");
+        }
+    }
     private void setValuesControls(Citas cita) {
-        txtFecha.setText(String.valueOf(cita.getFechaHora()));
+        if (cita.getFechaHora() != null && dpFechaNacimiento != null) {
+            dpFechaNacimiento.setDate(cita.getFechaHora().toLocalDate());
+        }
 
         cboEstado.setSelectedItem(new CBOption(null, cita.getEstado()));
         cboDoctorId.setSelectedItem(new CBOption(null, cita.getDoctorId()));
         cboPacienteId.setSelectedItem(new CBOption(null, cita.getPacienteId()));
 
         if (this.cud == CUD.DELETE) {
-            txtFecha.setEditable(false);
+            dpFechaNacimiento.setEnabled(false); // Deshabilita el DatePicker
             cboEstado.setEnabled(false);
             cboDoctorId.setEnabled(false);
             cboPacienteId.setEnabled(false);
@@ -121,13 +148,13 @@ public class CitasWriteForm extends JDialog {
         int doctorId = doctorOp != null ? (int) doctorOp.getValue() : 0;
         int pacienteId = pacienteOp != null ? (int) pacienteOp.getValue() : 0;
 
-        if (txtFecha.getText().trim().isEmpty() || estado == 0 || doctorId == 0 || pacienteId == 0)
+        if (dpFechaNacimiento.getDate() == null || estado == 0 || doctorId == 0 || pacienteId == 0)
             return false;
 
         if (this.cud != CUD.CREATE && this.citas.getId() == 0)
             return false;
 
-        this.citas.setFechaHora(LocalDateTime.now());
+        this.citas.setFechaHora(dpFechaNacimiento.getDate().atStartOfDay());
         this.citas.setEstado(String.valueOf(estado));
         this.citas.setDoctorId(String.valueOf(doctorId));
         this.citas.setPacienteId(String.valueOf(pacienteId));
