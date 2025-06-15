@@ -30,6 +30,12 @@ public class MainForm extends JFrame{
         CitasForm citas = new CitasForm(this);
         citas.setVisible(true);
     });
+        JMenuItem itemPagar = new JMenuItem("Pago de cita");
+        menuBar.add(itemPagar);
+        itemPagar.addActionListener(e -> {
+            Pagosform pago = new Pagosform((Runnable) this);
+            pago.setVisible(true);
+        });
     JMenuItem itemMedico = new JMenuItem("Médicos");
     menuBar.add(itemMedico);
     itemMedico.addActionListener(e -> {
