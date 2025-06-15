@@ -31,6 +31,7 @@ public class CitasForm extends JDialog{
 
     public CitasForm(MainForm mainForm) {
         this.mainForm = mainForm; // Inicializa la referencia a la ventana principal.
+        this.citasDAO = new CitasDAO();
         setContentPane(citasPanel); // Establece el panel principal como el contenido de este diálogo.
         setModal(true); // Hace que este diálogo sea modal, lo que significa que bloquea la interacción con la ventana principal hasta que se cierre.
         setTitle("Citas"); // Establece el título de la ventana del diálogo.
