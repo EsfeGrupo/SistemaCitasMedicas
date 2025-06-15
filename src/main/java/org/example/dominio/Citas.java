@@ -16,6 +16,10 @@ public class Citas {
         this.estado = estado;
     }
 
+    public Citas() {
+
+    }
+
     // Getters and Setters
     public int getId() {
         return id;
