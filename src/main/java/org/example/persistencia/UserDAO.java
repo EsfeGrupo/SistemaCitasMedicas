@@ -243,7 +243,104 @@ public class UserDAO {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error al generar el hash de la contraseña", e);
         }
+
     }
+
+    public ArrayList<User> obtenerTodos() throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM Users";
+
+        try (Connection conn = ConnectionManager.getInstance().connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("passwordHash"),
+                        rs.getByte("status")
+                );
+                users.add(user);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al obtener todos los usuarios: " + e.getMessage());
+            throw e;
+        }
+
+        return users;
+    }
+    public boolean actualizarUsuario(int id, String nombre, String email, String password) {
+        String sql = "UPDATE Users SET name = ?, email = ?, passwordHash = ? WHERE id = ?";
+        try (Connection conn = ConnectionManager.getInstance().connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nombre);
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.setInt(4, id);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public void insertar(User user) throws SQLException {
+        String sql = "INSERT INTO Users (name, email, passwordHash, status) VALUES (?, ?, ?, ?)";
+        try (Connection conn = ConnectionManager.getInstance().connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPasswordHash());
+            stmt.setInt(4, user.getStatus());
+
+            stmt.executeUpdate();
+        }
+    }
+    public boolean actualizar(String emailOriginal, User userActualizado) throws SQLException {
+        String sql;
+        boolean cambiarPassword = userActualizado.getPasswordHash() != null && !userActualizado.getPasswordHash().isEmpty();
+
+        if (cambiarPassword) {
+            sql = "UPDATE Users SET name = ?, email = ?, passwordHash = ? WHERE email = ?";
+        } else {
+            sql = "UPDATE Users SET name = ?, email = ? WHERE email = ?";
+        }
+
+        try (Connection conn = ConnectionManager.getInstance().connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, userActualizado.getName());
+            stmt.setString(2, userActualizado.getEmail());
+
+            if (cambiarPassword) {
+                stmt.setString(3, userActualizado.getPasswordHash());
+                stmt.setString(4, emailOriginal);
+            } else {
+                stmt.setString(3, emailOriginal);
+            }
+
+            return stmt.executeUpdate() > 0;
+        }
+    }
+    public boolean eliminarPorEmail(String email) {
+        String sql = "DELETE FROM Users WHERE email = ?";
+        try (Connection conn = ConnectionManager.getInstance().connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 }
 
 
