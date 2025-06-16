@@ -45,15 +45,13 @@ public class Pagosform extends JDialog{
         txtBuscar.addKeyListener(new KeyAdapter() {
         @Override
         public void keyReleased(KeyEvent e) {
-            // Aquí podrías implementar una lógica de búsqueda más sofisticada
-            // Por ejemplo, buscar por CitaId o por Monto.
             // Para simplificar, si el campo no está vacío, buscamos, de lo contrario limpiamos.
             if (!txtBuscar.getText().trim().isEmpty()) {
                 search(txtBuscar.getText());
             } else {
-                // Si el campo de texto está vacío, recarga todos los pagos o limpia la tabla.
-                loadAllPagos(); // Podrías llamar a un método para cargar todos los pagos
-                // o simplemente limpiar la tabla si no quieres mostrar nada sin búsqueda.
+                DefaultTableModel emptyModel = new DefaultTableModel();
+                tblDetalle.setModel(emptyModel);
+               //loadAllPagos();
             }
         }
     });
@@ -64,7 +62,8 @@ public class Pagosform extends JDialog{
             PagoWriteForm pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.CREATE, new Pago());
             pagoWriteForm.setVisible(true);
             // Después de cerrar el formulario de creación, recarga los datos para ver los cambios.
-            loadAllPagos(); // Recarga todos los pagos para reflejar el nuevo registro.
+            DefaultTableModel emptyModel = new DefaultTableModel();
+            tblDetalle.setModel(emptyModel);
         });
         // Agrega un ActionListener al botón btnEditar.
         btnEditar.addActionListener(s -> {
@@ -75,8 +74,8 @@ public class Pagosform extends JDialog{
                 // Se le pasa la MainForm, el modo CUD. UPDATE y el objeto Pago obtenido.
                 PagoWriteForm pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.UPDATE, pago);
                 pagoWriteForm.setVisible(true);
-                // Después de cerrar el formulario de edición, recarga los datos.
-                loadAllPagos(); // Recarga todos los pagos para reflejar los cambios.
+                DefaultTableModel emptyModel = new DefaultTableModel();
+                tblDetalle.setModel(emptyModel);
             }
         });
         // Agrega un ActionListener al botón btnEliminar.
@@ -88,8 +87,8 @@ public class Pagosform extends JDialog{
                 // Se le pasa la MainForm, el modo CUD. DELETE y el objeto Pago obtenido.
                 PagoWriteForm pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.DELETE, pago);
                 pagoWriteForm.setVisible(true);
-                // Después de cerrar el formulario de eliminación, recarga los datos.
-                loadAllPagos(); // Recarga todos los pagos para reflejar la eliminación.
+                DefaultTableModel emptyModel = new DefaultTableModel();
+                tblDetalle.setModel(emptyModel);
             }
         });
         // Cargar todos los pagos al inicio para que la tabla no esté vacía
@@ -112,23 +111,14 @@ public class Pagosform extends JDialog{
         }
     }
 
-    private void search(String text) {
+    private void search(String query) {
         try {
             // Aquí debes decidir cómo buscar. Por ejemplo, si buscas por citaId o monto.
             // Para este ejemplo, haré una búsqueda simple que filtre los ya cargados,
             // pero lo ideal sería que tu PagoDAO tuviera un método 'search(String query)'
             // que filtre en la base de datos.
-            ArrayList<Pago> allPagos = (ArrayList<Pago>) pagoDAO.getAll();
-            ArrayList<Pago> filteredPagos = new ArrayList<>();
-            for (Pago pago : allPagos) {
-                // Ejemplo: buscar por CitaId o por Monto como string
-                CharSequence query = null;
-                if (String.valueOf(pago.getCitaId()).contains(query) ||
-                        String.valueOf(pago.getMonto()).contains(query)) {
-                    filteredPagos.add(pago);
-                }
-            }
-            createTable(filteredPagos);
+            ArrayList<Pago> pagos = pagoDAO.search(query);
+            createTable(pagos);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     "Error durante la búsqueda de pagos: " + ex.getMessage(),

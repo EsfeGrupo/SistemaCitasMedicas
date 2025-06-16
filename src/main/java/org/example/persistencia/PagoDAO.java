@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp; // Necesario para manejar LocalDateTime en la base de datos
 import java.util.ArrayList;
-import java.time.LocalDateTime; // Usaremos LocalDateTime para la fecha de pago
 
 import org.example.dominio.Pago; // Importar la nueva clase de dominio Pago
 
@@ -143,21 +142,19 @@ public class PagoDAO {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos
      * durante la búsqueda de pagos.
      */
-    public ArrayList<Pago> searchByCitaId(int citaId) throws SQLException {
+    public ArrayList<Pago> search(String citaId) throws SQLException {
         ArrayList<Pago> records = new ArrayList<>();
         try {
-            ps = conn.connect().prepareStatement("SELECT id, citaId, monto, fechaPago FROM Pagos WHERE citaId = ?");
-            ps.setInt(1, citaId);
+            ps = conn.connect().prepareStatement(
+                    "SELECT id, citaId, monto, fechaPago FROM Pagos WHERE citaId LIKE ?"
+            );
+            ps.setString(1, "%" + citaId + "%");
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                Pago pago = new Pago();
-                pago.setId(rs.getInt("id"));
-                pago.setCitaId(rs.getString("citaId"));
-                pago.setMonto(rs.getFloat("monto"));
-                // Convertir Timestamp de la DB a LocalDateTime
-                pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
-                records.add(pago);
+                Pago pago = new Pago(
+                );
+               records.add(pago);
             }
             ps.close();
             rs.close();

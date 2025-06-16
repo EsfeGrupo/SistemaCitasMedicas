@@ -20,5 +20,6 @@ public class PagoWriteForm {
     }
 
     public void setVisible(boolean b) {
+
     }
 }
