@@ -1,103 +1,102 @@
 package org.example.persistencia;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp; // Necesario para manejar LocalDateTime en la base de datos
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.example.dominio.Pago; // Importar la nueva clase de dominio Pago
-
-
+import org.example.dominio.Pago;
 
 public class PagoDAO {
-    private ConnectionManager conn;
-    private PreparedStatement ps;
-    private ResultSet rs;
+    private ConnectionManager connManager; // Renombrado 'conn' a 'connManager' para mayor claridad
 
     public PagoDAO(){
-        conn = ConnectionManager.getInstance();
+        connManager = ConnectionManager.getInstance();
     }
 
     /**
      * Crea un nuevo registro de pago en la base de datos.
      *
      * @param pago El objeto Pago que contiene la información del nuevo pago a crear.
-     * Se espera que tenga 'citaId', 'monto' y 'fechaPago' establecidos.
-     * El campo 'id' será generado automáticamente por la base de datos.
      * @return El objeto Pago recién creado, incluyendo el ID generado por la base de datos,
      * o null si ocurre algún error durante la creación.
      * @throws SQLException Si ocurre un error al interactuar con la base de datos
      * durante la creación del pago.
      */
     public Pago create(Pago pago) throws SQLException {
-        Pago res = null;
-        try {
-            ps = conn.connect().prepareStatement(
-                    "INSERT INTO Pagos (citaId, monto, fechaPago) VALUES (?, ?, ?)",
-                    java.sql.Statement.RETURN_GENERATED_KEYS
-            );
+        String sql = "INSERT INTO Pagos (citaId, monto, fechaPago) VALUES (?, ?, ?)";
+        Pago createdPago = null;
+
+        // --- USANDO TRY-WITH-RESOURCES ---
+        try (Connection connection = connManager.connect(); // Obtener la conexión dentro del try-with-resources
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, pago.getCitaId());
             ps.setFloat(2, pago.getMonto());
-            // Convertir LocalDateTime a Timestamp para la base de datos
             ps.setTimestamp(3, Timestamp.valueOf(pago.getFechaPago()));
 
             int affectedRows = ps.executeUpdate();
 
-            if (affectedRows != 0) {
-                ResultSet generatedKeys = ps.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int idGenerado = generatedKeys.getInt(1);
-                    res = getById(idGenerado); // Recuperar el pago completo usando el ID generado
-                } else {
-                    throw new SQLException("Creating pago failed, no ID obtained.");
-                }
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) { // try-with-resources anidado para ResultSet
+                    if (generatedKeys.next()) {
+                        int idGenerado = generatedKeys.getInt(1);
+                        pago.setId(idGenerado); // Establece el ID generado en el objeto original
+                        createdPago = pago; // Asigna el objeto Pago actualizado
+
+                        // Puedes mantener esto si quieres obtener explícitamente el objeto de la DB
+                        // después de la inserción, pero a menudo es redundante si solo estableces el ID.
+                        // createdPago = getById(idGenerado);
+                    } else {
+                        throw new SQLException("La creación del pago falló, no se obtuvo ID.");
+                    }
+                } // generatedKeys se cierra automáticamente aquí
+            } else {
+                System.out.println("No se afectaron filas, el pago no fue creado.");
             }
-            ps.close();
+
         } catch (SQLException ex) {
-            throw new SQLException("Error al crear el pago: " + ex.getMessage(), ex);
-        } finally {
-            ps = null;
-            conn.disconnect();
+            System.err.println("Error al crear el pago: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
-        return res;
+        // No se necesita un bloque finally manual para cerrar recursos
+        return createdPago;
     }
 
     /**
      * Actualiza la información de un pago existente en la base de datos.
      *
      * @param pago El objeto Pago que contiene la información actualizada del pago.
-     * Se requiere que el objeto Pago tenga los campos 'id', 'monto' y 'fechaPago'
-     * correctamente establecidos para realizar la actualización.
-     * @return true si la actualización del pago fue exitosa (al menos una fila afectada),
-     * false en caso contrario.
+     * @return true si la actualización del pago fue exitosa, false en caso contrario.
      * @throws SQLException Si ocurre un error al interactuar con la base de datos
      * durante la actualización del pago.
      */
     public boolean update(Pago pago) throws SQLException {
+        // Asumiendo que citaId también es actualizable
+        String sql = "UPDATE Pagos SET citaId = ?, monto = ?, fechaPago = ? WHERE id = ?";
         boolean res = false;
-        try {
-            ps = conn.connect().prepareStatement(
-                    "UPDATE Pagos " +
-                            "SET monto = ?, fechaPago = ? " +
-                            "WHERE id = ?"
-            );
 
-            ps.setFloat(1, pago.getMonto());
-            // Convertir LocalDateTime a Timestamp para la base de datos
-            ps.setTimestamp(2, Timestamp.valueOf(pago.getFechaPago()));
-            ps.setInt(3, pago.getId());
+        // --- USANDO TRY-WITH-RESOURCES ---
+        try (Connection connection = connManager.connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, pago.getCitaId());
+            ps.setFloat(2, pago.getMonto());
+            ps.setTimestamp(3, Timestamp.valueOf(pago.getFechaPago()));
+            ps.setInt(4, pago.getId());
 
             if (ps.executeUpdate() > 0) {
                 res = true;
             }
-            ps.close();
+
         } catch (SQLException ex) {
-            throw new SQLException("Error al modificar el pago: " + ex.getMessage(), ex);
-        } finally {
-            ps = null;
-            conn.disconnect();
+            System.err.println("Error al modificar el pago: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
         return res;
     }
@@ -106,29 +105,28 @@ public class PagoDAO {
      * Elimina un pago de la base de datos basándose en su ID.
      *
      * @param pago El objeto Pago que contiene el ID del pago a eliminar.
-     * Se requiere que el objeto Pago tenga el campo 'id' correctamente establecido.
-     * @return true si la eliminación del pago fue exitosa (al menos una fila afectada),
-     * false en caso contrario.
+     * @return true si la eliminación del pago fue exitosa, false en caso contrario.
      * @throws SQLException Si ocurre un error al interactuar con la base de datos
      * durante la eliminación del pago.
      */
     public boolean delete(Pago pago) throws SQLException {
+        String sql = "DELETE FROM Pagos WHERE id = ?";
         boolean res = false;
-        try {
-            ps = conn.connect().prepareStatement(
-                    "DELETE FROM Pagos WHERE id = ?"
-            );
+
+        // --- USANDO TRY-WITH-RESOURCES ---
+        try (Connection connection = connManager.connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, pago.getId());
 
             if (ps.executeUpdate() > 0) {
                 res = true;
             }
-            ps.close();
+
         } catch (SQLException ex) {
-            throw new SQLException("Error al eliminar el pago: " + ex.getMessage(), ex);
-        } finally {
-            ps = null;
-            conn.disconnect();
+            System.err.println("Error al eliminar el pago: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
         return res;
     }
@@ -136,34 +134,44 @@ public class PagoDAO {
     /**
      * Busca pagos en la base de datos asociados a un ID de cita específico.
      *
-     * @param citaId El ID de la cita para la cual se desean buscar los pagos.
+     * @param filtroNombrePaciente El ID de la cita para la cual se desean buscar los pagos.
      * @return Un ArrayList de objetos Pago que coinciden con el criterio de búsqueda.
      * Retorna una lista vacía si no se encuentran pagos para la cita especificada.
      * @throws SQLException Si ocurre un error al interactuar con la base de datos
      * durante la búsqueda de pagos.
      */
-    public ArrayList<Pago> search(String citaId) throws SQLException {
+    public ArrayList<Pago> search(String filtroNombrePaciente) throws SQLException {
         ArrayList<Pago> records = new ArrayList<>();
-        try {
-            ps = conn.connect().prepareStatement(
-                    "SELECT id, citaId, monto, fechaPago FROM Pagos WHERE citaId LIKE ?"
-            );
-            ps.setString(1, "%" + citaId + "%");
-            rs = ps.executeQuery();
+        // Revertido a buscar por citaId, según el dominio de Pago.
+        // Si necesitas buscar por nombre de paciente, necesitarás un JOIN con Citas y Pacientes.
+        String sql = "SELECT P.id, P.citaId, P.monto, P.fechaPago, Pa.nombre AS nombrePaciente " +
+                "FROM Pagos P " +
+                "JOIN Citas C ON P.citaId = C.id " +
+                "JOIN Pacientes Pa ON C.pacienteId = Pa.id " +
+                "WHERE Pa.nombre LIKE ?";
 
-            while (rs.next()) {
-                Pago pago = new Pago(
-                );
-               records.add(pago);
-            }
-            ps.close();
-            rs.close();
+        // --- USANDO TRY-WITH-RESOURCES ---
+        try (Connection connection = connManager.connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + filtroNombrePaciente + "%"); // Usar el filtro para el nombre
+
+
+            try (ResultSet rs = ps.executeQuery()) { // try-with-resources anidado para ResultSet
+                while (rs.next()) {
+                    Pago pago = new Pago();
+                    pago.setId(rs.getInt("id"));
+                    pago.setCitaId(rs.getString("citaId"));
+                    pago.setMonto(rs.getFloat("monto"));
+                    pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
+                    pago.setNombrePaciente(rs.getString("nombrePaciente")); // <--- ¡OBTENER EL NUEVO CAMPO!
+                    records.add(pago);
+                }
+            } // rs se cierra automáticamente aquí
         } catch (SQLException ex) {
-            throw new SQLException("Error al buscar pagos por ID de cita: " + ex.getMessage(), ex);
-        } finally {
-            ps = null;
-            rs = null;
-            conn.disconnect();
+            System.err.println("Error al buscar pagos por ID de cita: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
         return records;
     }
@@ -179,27 +187,27 @@ public class PagoDAO {
      */
     public Pago getById(int id) throws SQLException {
         Pago pago = null;
-        try {
-            ps = conn.connect().prepareStatement("SELECT id, citaId, monto, fechaPago FROM Pagos WHERE id = ?");
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
+        String sql = "SELECT id, citaId, monto, fechaPago FROM Pagos WHERE id = ?";
 
-            if (rs.next()) {
-                pago = new Pago();
-                pago.setId(rs.getInt("id"));
-                pago.setCitaId(rs.getString("citaId"));
-                pago.setMonto(rs.getFloat("monto"));
-                // Convertir Timestamp de la DB a LocalDateTime
-                pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
-            }
-            ps.close();
-            rs.close();
+        // --- USANDO TRY-WITH-RESOURCES ---
+        try (Connection connection = connManager.connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) { // try-with-resources anidado para ResultSet
+                if (rs.next()) {
+                    pago = new Pago();
+                    pago.setId(rs.getInt("id"));
+                    pago.setCitaId(rs.getString("citaId"));
+                    pago.setMonto(rs.getFloat("monto"));
+                    pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
+                }
+            } // rs se cierra automáticamente aquí
         } catch (SQLException ex) {
-            throw new SQLException("Error al obtener un pago por id: " + ex.getMessage(), ex);
-        } finally {
-            ps = null;
-            rs = null;
-            conn.disconnect();
+            System.err.println("Error al obtener un pago por id: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
         return pago;
     }
@@ -212,26 +220,30 @@ public class PagoDAO {
      */
     public ArrayList<Pago> getAll() throws SQLException {
         ArrayList<Pago> records = new ArrayList<>();
-        try {
-            ps = conn.connect().prepareStatement("SELECT id, citaId, monto, fechaPago FROM Pagos");
-            rs = ps.executeQuery();
+        String sql = "SELECT P.id, P.citaId, P.monto, P.fechaPago, Pa.nombre AS nombrePaciente " +
+                "FROM Pagos P " +
+                "JOIN Citas C ON P.citaId = C.id " + // Asumiendo que citaId en Pagos es FOREIGN KEY a Citas.id
+                "JOIN Pacientes Pa ON C.pacienteId = Pa.id";
 
-            while (rs.next()) {
-                Pago pago = new Pago();
-                pago.setId(rs.getInt("id"));
-                pago.setCitaId(rs.getString("citaId"));
-                pago.setMonto(rs.getFloat("monto"));
-                pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
-                records.add(pago);
-            }
-            ps.close();
-            rs.close();
+        // --- USANDO TRY-WITH-RESOURCES ---
+        try (Connection connection = connManager.connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            try (ResultSet rs = ps.executeQuery()) { // try-with-resources anidado para ResultSet
+                while (rs.next()) {
+                    Pago pago = new Pago();
+                    pago.setId(rs.getInt("id"));
+                    pago.setCitaId(rs.getString("citaId"));
+                    pago.setMonto(rs.getFloat("monto"));
+                    pago.setFechaPago(rs.getTimestamp("fechaPago").toLocalDateTime());
+                    pago.setNombrePaciente(rs.getString("nombrePaciente")); // <--- ¡OBTENER EL NUEVO CAMPO!
+                    records.add(pago);
+                }
+            } // rs se cierra automáticamente aquí
         } catch (SQLException ex) {
-            throw new SQLException("Error al obtener todos los pagos: " + ex.getMessage(), ex);
-        } finally {
-            ps = null;
-            rs = null;
-            conn.disconnect();
+            System.err.println("Error al obtener todos los pagos: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         }
         return records;
     }

@@ -9,6 +9,7 @@ import org.example.utils.CUD;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -59,7 +60,12 @@ public class Pagosform extends JDialog{
         btnCrear.addActionListener(s -> {
             // Crea una nueva instancia de PagoWriteForm para la creación de un nuevo pago.
             // Se le pasa la MainForm, el modo CUD. CREATE y un nuevo objeto Pago vacío.
-            PagoWriteForm pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.CREATE, new Pago());
+            PagoWriteForm pagoWriteForm = null;
+            try {
+                pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.CREATE, new Pago());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             pagoWriteForm.setVisible(true);
             // Después de cerrar el formulario de creación, recarga los datos para ver los cambios.
             DefaultTableModel emptyModel = new DefaultTableModel();
@@ -72,7 +78,12 @@ public class Pagosform extends JDialog{
             if (pago != null) {
                 // Crea una nueva instancia de PagoWriteForm para la actualización del pago seleccionado.
                 // Se le pasa la MainForm, el modo CUD. UPDATE y el objeto Pago obtenido.
-                PagoWriteForm pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.UPDATE, pago);
+                PagoWriteForm pagoWriteForm = null;
+                try {
+                    pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.UPDATE, pago);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 pagoWriteForm.setVisible(true);
                 DefaultTableModel emptyModel = new DefaultTableModel();
                 tblDetalle.setModel(emptyModel);
@@ -85,7 +96,12 @@ public class Pagosform extends JDialog{
             if (pago != null) {
                 // Crea una nueva instancia de PagoWriteForm para la eliminación del pago seleccionado.
                 // Se le pasa la MainForm, el modo CUD. DELETE y el objeto Pago obtenido.
-                PagoWriteForm pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.DELETE, pago);
+                PagoWriteForm pagoWriteForm = null;
+                try {
+                    pagoWriteForm = new PagoWriteForm(this.mainForm, CUD.DELETE, pago);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 pagoWriteForm.setVisible(true);
                 DefaultTableModel emptyModel = new DefaultTableModel();
                 tblDetalle.setModel(emptyModel);
