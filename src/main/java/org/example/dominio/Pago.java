@@ -8,15 +8,21 @@ public class Pago {
     private float monto;
     private LocalDateTime fechaPago; // Usaremos LocalDateTime para la fecha de pago
 
+
+    // Campos adicionales para mostrar nombres (opcional)Add commentMore actions
+    private String nombrePaciente;
+    private String nombreDoctor;
+
     // Constructor vacío (opcional, pero útil para frameworks)
     public Pago() {
     }
 
     // Constructor con todos los campos (excepto ID, que es autoincremental)
-    public Pago(String citaId, float monto, LocalDateTime fechaPago) {
+    public Pago(String citaId, float monto, LocalDateTime fechaPago, String nombrePaciente) {
         this.citaId = citaId;
         this.monto = monto;
         this.fechaPago = fechaPago;
+        this.nombrePaciente = nombrePaciente;
     }
 
     // --- Getters y Setters ---
@@ -50,6 +56,15 @@ public class Pago {
 
     public void setFechaPago(LocalDateTime fechaPago) {
         this.fechaPago = fechaPago;
+    }
+
+    // Nuevo Getter y Setter para nombrePaciente
+    public String getNombrePaciente() {
+        return nombrePaciente;
+    }
+
+    public void setNombrePaciente(String nombrePaciente) {
+        this.nombrePaciente = nombrePaciente;
     }
 
 

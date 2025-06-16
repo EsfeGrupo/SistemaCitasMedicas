@@ -4,6 +4,8 @@ import javax.swing.*;
 
 public class MainForm extends JFrame{
 
+    private JPanel MainPanel;
+
     public MainForm(){
         setTitle("Sistema en java de Citas medicas de escritorio"); // Establece el título de la ventana principal (JFrame).
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación por defecto al cerrar la ventana para que la aplicación se termine.
@@ -28,6 +30,12 @@ public class MainForm extends JFrame{
         CitasForm citas = new CitasForm(this);
         citas.setVisible(true);
     });
+        JMenuItem itemPagar = new JMenuItem("Pago de cita");
+        menuBar.add(itemPagar);
+        itemPagar.addActionListener(e -> {
+            Pagosform pago = new Pagosform(this);
+            pago.setVisible(true);
+        });
     JMenuItem itemMedico = new JMenuItem("Médicos");
     menuBar.add(itemMedico);
     itemMedico.addActionListener(e -> {

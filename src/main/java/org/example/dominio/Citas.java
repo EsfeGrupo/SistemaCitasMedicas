@@ -1,4 +1,5 @@
 package org.example.dominio;
+
 import java.time.LocalDateTime;
 
 public class Citas {
@@ -8,6 +9,10 @@ public class Citas {
     private String doctorId;
     private String estado;
 
+    // Campos adicionales para mostrar nombres (opcional)
+    private String nombrePaciente;
+    private String nombreDoctor;
+
     public Citas(int id, LocalDateTime fechaHora, String pacienteId, String doctorId, String estado) {
         this.id = id;
         this.fechaHora = fechaHora;
@@ -16,7 +21,21 @@ public class Citas {
         this.estado = estado;
     }
 
-    // Getters and Setters
+    // Constructor extendido si ya vienen los nombres
+    public Citas(int id, LocalDateTime fechaHora, String pacienteId, String doctorId, String estado, String nombrePaciente, String nombreDoctor) {
+        this.id = id;
+        this.fechaHora = fechaHora;
+        this.pacienteId = pacienteId;
+        this.doctorId = doctorId;
+        this.estado = estado;
+        this.nombrePaciente = nombrePaciente;
+        this.nombreDoctor = nombreDoctor;
+    }
+
+    public Citas() {
+    }
+
+    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -26,7 +45,7 @@ public class Citas {
     }
 
     public LocalDateTime getFechaHora() {
-        return this.fechaHora;
+        return fechaHora;
     }
 
     public void setFechaHora(LocalDateTime fechaHora) {
@@ -55,5 +74,22 @@ public class Citas {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    // Getters y Setters para nombres (opcional)
+    public String getNombrePaciente() {
+        return nombrePaciente;
+    }
+
+    public void setNombrePaciente(String nombrePaciente) {
+        this.nombrePaciente = nombrePaciente;
+    }
+
+    public String getNombreDoctor() {
+        return nombreDoctor;
+    }
+
+    public void setNombreDoctor(String nombreDoctor) {
+        this.nombreDoctor = nombreDoctor;
     }
 }
