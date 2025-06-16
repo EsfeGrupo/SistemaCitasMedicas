@@ -140,24 +140,39 @@ public class CitasDAO {
         return res;
     }
 
-    public ArrayList<Citas> search(String pacienteId) throws SQLException {
+    public ArrayList<Citas> search(String nombrePaciente) throws SQLException {
         ArrayList<Citas> records = new ArrayList<>();
 
         try {
             ps = conn.connect().prepareStatement(
-                    "SELECT id, fechaHora, pacienteId, doctorId, estado FROM Citas WHERE pacienteId LIKE ?"
+                    "SELECT C.id, C.fechaHora, C.pacienteId, C.doctorId, C.estado, P.nombre AS nombrePaciente, D.nombre AS nombreDoctor " +
+                            "FROM Citas C " +
+                            "JOIN Pacientes P ON C.pacienteId = P.id " +
+                            "JOIN Doctores D ON C.doctorId = D.id " +
+                            "WHERE P.nombre LIKE ?"
             );
-            ps.setString(1, "%" + pacienteId + "%");
+            ps.setString(1, "%" + nombrePaciente + "%");
 
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                int estadoNum = Integer.parseInt(rs.getString("estado")); // asumo que es un número almacenado como texto o ajusta si es int
+
+                String estadoStr = switch (estadoNum) {
+                    case 1 -> "Pendiente";
+                    case 2 -> "Confirmada";
+                    case 3 -> "Cancelada";
+                    default -> "Desconocido";
+                };
+
                 Citas cita = new Citas(
                         rs.getInt("id"),
                         rs.getTimestamp("fechaHora").toLocalDateTime(),
+                        rs.getString("nombrePaciente"),
+                        rs.getString("nombreDoctor"),
+                        estadoStr,
                         rs.getString("pacienteId"),
-                        rs.getString("doctorId"),
-                        rs.getString("estado")
+                        rs.getString("doctorId")
                 );
                 records.add(cita);
             }

@@ -149,6 +149,7 @@ public class CitasForm extends JDialog{
         model.addColumn("Fecha y Hora");
         model.addColumn("Estado");
 
+
         // Establece el modelo de tabla creado como el modelo de datos para la
         // JTable 'tabDetalles' (la tabla que se muestra en la interfaz gráfica).
         this.tabDetalles.setModel(model);
