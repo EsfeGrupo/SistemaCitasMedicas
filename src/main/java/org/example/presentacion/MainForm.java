@@ -43,6 +43,15 @@ public class MainForm extends JFrame{
         medico.setVisible(true);
     });
 
+
+    JMenuItem itemUsuarios = new JMenuItem("Usuarios");
+    menuBar.add(itemUsuarios);
+        itemUsuarios.addActionListener(e -> {
+            Usersform usuariosForm = new Usersform(this); // 'this' es MainForm
+            usuariosForm.setVisible(true); // Ya es un JDialog modal, bloqueará la principal
+        });
+
+
     /*JMenuItem itemChangeUser = new JMenuItem("Cambiar de usuario");
     menuBar.add(itemChangeUser);
     itemChangeUser.addActionListener(e -> {

@@ -17,6 +17,14 @@ public class User {
         this.status = status;
     }
 
+    // ✅ Constructor adicional para crear usuarios nuevos fácilmente
+    public User(String name, String email, String passwordHash) {
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.status = 1; // Activo por defecto
+    }
+
     // Getters y setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

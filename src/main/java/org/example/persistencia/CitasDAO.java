@@ -62,8 +62,8 @@ public class CitasDAO {
             Connection connection = conn.connect();
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setString(1, cita.getPacienteId());
-                ps.setString(2, cita.getDoctorId());
+                ps.setInt(1, cita.getPacienteId());
+                ps.setInt(2, cita.getDoctorId());
                 ps.setTimestamp(3, Timestamp.valueOf(cita.getFechaHora()));
                 ps.setString(4, cita.getEstado());
 
@@ -97,8 +97,8 @@ public class CitasDAO {
                     "UPDATE Citas SET fechaHora = ?, pacienteId = ?, doctorId = ?, estado = ? WHERE id = ?"
             );
             ps.setTimestamp(1, Timestamp.valueOf(cita.getFechaHora()));
-            ps.setString(2, cita.getPacienteId());
-            ps.setString(3, cita.getDoctorId());
+            ps.setInt(2, cita.getPacienteId());
+            ps.setInt(3, cita.getDoctorId());
             ps.setString(4, cita.getEstado());
             ps.setInt(5, cita.getId());
 
@@ -156,7 +156,8 @@ public class CitasDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int estadoNum = Integer.parseInt(rs.getString("estado")); // asumo que es un número almacenado como texto o ajusta si es int
+                // Suponiendo que 'estado' es un entero
+                int estadoNum = rs.getInt("estado");
 
                 String estadoStr = switch (estadoNum) {
                     case 1 -> "Pendiente";
@@ -168,11 +169,11 @@ public class CitasDAO {
                 Citas cita = new Citas(
                         rs.getInt("id"),
                         rs.getTimestamp("fechaHora").toLocalDateTime(),
-                        rs.getString("nombrePaciente"),
-                        rs.getString("nombreDoctor"),
+                        rs.getInt("pacienteId"),
+                        rs.getInt("doctorId"),
                         estadoStr,
-                        rs.getString("pacienteId"),
-                        rs.getString("doctorId")
+                        rs.getString("nombrePaciente"),
+                        rs.getString("nombreDoctor")
                 );
                 records.add(cita);
             }
@@ -190,6 +191,7 @@ public class CitasDAO {
         return records;
     }
 
+
     public Citas getById(int id) throws SQLException {
         Citas cita = null;
 
@@ -204,8 +206,8 @@ public class CitasDAO {
                 cita = new Citas(
                         rs.getInt("id"),
                         rs.getTimestamp("fechaHora").toLocalDateTime(),
-                        rs.getString("pacienteId"),
-                        rs.getString("doctorId"),
+                        rs.getInt("pacienteId"),
+                        rs.getInt("doctorId"),
                         rs.getString("estado")
                 );
             }

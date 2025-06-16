@@ -154,10 +154,12 @@ public class CitasWriteForm extends JDialog {
         if (this.cud != CUD.CREATE && this.citas.getId() == 0)
             return false;
 
+
         this.citas.setFechaHora(dpFechaNacimiento.getDate().atStartOfDay());
         this.citas.setEstado(String.valueOf(estado));
-        this.citas.setDoctorId(String.valueOf(doctorId));
-        this.citas.setPacienteId(String.valueOf(pacienteId));
+        this.citas.setDoctorId(doctorId);
+        this.citas.setPacienteId(pacienteId);
+
 
         return true;
     }

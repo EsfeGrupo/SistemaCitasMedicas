@@ -5,15 +5,15 @@ import java.time.LocalDateTime;
 public class Citas {
     private int id;
     private LocalDateTime fechaHora;
-    private String pacienteId;
-    private String doctorId;
+    private int pacienteId;  // Cambiado a int
+    private int doctorId;    // Cambiado a int
     private String estado;
 
     // Campos adicionales para mostrar nombres (opcional)
     private String nombrePaciente;
     private String nombreDoctor;
 
-    public Citas(int id, LocalDateTime fechaHora, String pacienteId, String doctorId, String estado) {
+    public Citas(int id, LocalDateTime fechaHora, int pacienteId, int doctorId, String estado) {
         this.id = id;
         this.fechaHora = fechaHora;
         this.pacienteId = pacienteId;
@@ -22,7 +22,7 @@ public class Citas {
     }
 
     // Constructor extendido si ya vienen los nombres
-    public Citas(int id, LocalDateTime fechaHora, String pacienteId, String doctorId, String estado, String nombrePaciente, String nombreDoctor) {
+    public Citas(int id, LocalDateTime fechaHora, int pacienteId, int doctorId, String estado, String nombrePaciente, String nombreDoctor) {
         this.id = id;
         this.fechaHora = fechaHora;
         this.pacienteId = pacienteId;
@@ -52,19 +52,19 @@ public class Citas {
         this.fechaHora = fechaHora;
     }
 
-    public String getPacienteId() {
+    public int getPacienteId() {
         return pacienteId;
     }
 
-    public void setPacienteId(String pacienteId) {
+    public void setPacienteId(int pacienteId) {
         this.pacienteId = pacienteId;
     }
 
-    public String getDoctorId() {
+    public int getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(String doctorId) {
+    public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
     }
 
