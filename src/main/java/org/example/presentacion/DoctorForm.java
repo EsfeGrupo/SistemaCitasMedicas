@@ -34,7 +34,7 @@ public class DoctorForm extends JDialog {
         setModal(true); // Hace que este diálogo sea modal, bloqueando la interacción con la ventana principal hasta que se cierre.
         setTitle("Buscar Doctor"); // Establece el título de la ventana del diálogo.
         pack(); // Ajusta el tamaño de la ventana para que todos sus componentes se muestren correctamente.
-        setLocationRelativeTo(mainForm); // Centra la ventana del diálogo relative a la ventana principal.
+        setLocationRelativeTo(mainForm); // Centra la v     sentana del diálogo relative a la ventana principal.
 
         // Agrega un listener de teclado al campo de texto txtNombre.
         txtBuscar.addKeyListener(new KeyAdapter() {
